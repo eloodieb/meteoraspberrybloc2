@@ -22,14 +22,12 @@ if (isset($data->temperature) && isset($data->humidite) && isset($data->id_sonde
     // CHECK DATA VALUE IS EMPTY OR NOT
     if (!empty($data->temperature) && !empty($data->humidite) && !empty($data->id_sonde)) {
 
-        $insert_query = "INSERT INTO `releves`(temperature,humidite,id_sonde, created_at) VALUES(:temperature,:humidite,:id_sonde,:created_at)";
+        $insert_query = "INSERT INTO `sensor_data`(temperature,humidite) VALUES(:temperature,:humidite)";
 
         $insert_stmt = $conn->prepare($insert_query);
         // DATA BINDING
         $insert_stmt->bindValue(':temperature', htmlspecialchars(strip_tags($data->temperature)), PDO::PARAM_INT);
         $insert_stmt->bindValue(':humidite', htmlspecialchars(strip_tags($data->humidite)), PDO::PARAM_INT);
-        $insert_stmt->bindValue(':id_sonde', htmlspecialchars(strip_tags($data->id_sonde)), PDO::PARAM_INT);
-        $insert_stmt->bindValue(':created_at', date("d-m-Y H:i:s"));
 
         if ($insert_stmt->execute()) {
             $msg['message'] = 'Data Inserted Successfully';
