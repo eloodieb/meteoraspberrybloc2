@@ -34,7 +34,7 @@ if (isset($data->id)) {
 
         // CHECK, IF NEW UPDATE REQUEST DATA IS AVAILABLE THEN SET IT OTHERWISE SET OLD DATA
         $releve_temperature = isset($data->temperature) ? $data->temperature : $row['temperature'];
-        $releve_humidite = isset($data->humidite) ? $data->humidite : $row['humidity'];
+        $releve_humidity = isset($data->humidity) ? $data->humidity : $row['humidity'];
 
         $update_query = "UPDATE `sensor_data` SET temperature = :temperature, humidity = :humidity
         WHERE id = :id";
@@ -43,7 +43,7 @@ if (isset($data->id)) {
 
         // DATA BINDING AND REMOVE SPECIAL CHARS AND REMOVE TAGS
         $update_stmt->bindValue(':temperature', htmlspecialchars(strip_tags($releve_temperature)), PDO::PARAM_INT);
-        $update_stmt->bindValue(':humidity', htmlspecialchars(strip_tags($releve_humidite)), PDO::PARAM_INT);
+        $update_stmt->bindValue(':humidity', htmlspecialchars(strip_tags($releve_humidity)), PDO::PARAM_INT);
         $update_stmt->bindValue(':id', $releve_id, PDO::PARAM_INT);
 
         if ($update_stmt->execute()) {

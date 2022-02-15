@@ -23,7 +23,7 @@ if (isset($data->id)) {
 
     //GET POST BY ID FROM DATABASE
     // YOU CAN REMOVE THIS QUERY AND PERFORM ONLY DELETE QUERY
-    $check_releve = "SELECT * FROM `releves` WHERE id=:releve_id";
+    $check_releve = "SELECT * FROM `sensor_data` WHERE id=:releve_id";
     $check_releve_stmt = $conn->prepare($check_releve);
     $check_releve_stmt->bindValue(':releve_id', $releve_id, PDO::PARAM_INT);
     $check_releve_stmt->execute();
@@ -32,7 +32,7 @@ if (isset($data->id)) {
     if ($check_releve_stmt->rowCount() > 0) {
 
         //DELETE POST BY ID FROM DATABASE
-        $dcheck_releve = "DELETE FROM `releves` WHERE id=:releve_id";
+        $dcheck_releve = "DELETE FROM `sensor_data` WHERE id=:releve_id";
         $dcheck_releve_stmt = $conn->prepare($dcheck_releve);
         $dcheck_releve_stmt->bindValue(':releve_id', $releve_id, PDO::PARAM_INT);
 

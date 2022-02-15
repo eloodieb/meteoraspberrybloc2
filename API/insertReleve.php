@@ -18,27 +18,27 @@ $data = json_decode(file_get_contents("php://input"));
 $msg['message'] = '';
 
 // CHECK IF RECEIVED DATA FROM THE REQUEST
-if (isset($data->temperature) && isset($data->humidite) && isset($data->id_sonde)) {
+if (isset($data->temperature) && isset($data->humidity)) {
     // CHECK DATA VALUE IS EMPTY OR NOT
-    if (!empty($data->temperature) && !empty($data->humidite) && !empty($data->id_sonde)) {
+    if (!empty($data->temperature) && !empty($data->humidity)) {
 
-        $insert_query = "INSERT INTO `sensor_data`(temperature,humidite) VALUES(:temperature,:humidite)";
+        $insert_query = "INSERT INTO `sensor_data`(temperature,humidity) VALUES(:temperature,:humidity)";
 
         $insert_stmt = $conn->prepare($insert_query);
         // DATA BINDING
         $insert_stmt->bindValue(':temperature', htmlspecialchars(strip_tags($data->temperature)), PDO::PARAM_INT);
-        $insert_stmt->bindValue(':humidite', htmlspecialchars(strip_tags($data->humidite)), PDO::PARAM_INT);
+        $insert_stmt->bindValue(':humidity', htmlspecialchars(strip_tags($data->humidity)), PDO::PARAM_INT);
 
         if ($insert_stmt->execute()) {
-            $msg['message'] = 'Data Inserted Successfully';
+            $msg['message'] = 'Donnée insérée avec succès';
         } else {
-            $msg['message'] = 'Data not Inserted';
+            $msg['message'] = 'Erreur d\'insertion des données';
         }
     } else {
-        $msg['message'] = 'Oops! empty field detected. Please fill all the fields';
+        $msg['message'] = 'Oops! veuillez remplir les champs vides';
     }
 } else {
-    $msg['message'] = 'Please fill all the fields | temperature, humidite, id_sonde';
+    $msg['message'] = 'Remplissez tout les champs | temperature, humidity';
 }
 //ECHO DATA IN JSON FORMAT
 echo json_encode($msg);
