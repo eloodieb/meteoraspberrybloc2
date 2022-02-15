@@ -26,7 +26,7 @@ if (isset($_GET['id'])) {
 
 // MAKE SQL QUERY
 // IF GET POSTS ID, THEN SHOW POSTS BY ID OTHERWISE SHOW ALL POSTS
-$sql = is_numeric($releve_id) ? "SELECT * FROM `releves` WHERE id='$releve_id'" : "SELECT * FROM `releves`";
+$sql = is_numeric($releve_id) ? "SELECT * FROM `sensor_data` WHERE id='$releve_id'" : "SELECT * FROM `sensor_data`";
 
 $stmt = $conn->prepare($sql);
 
@@ -41,10 +41,8 @@ if ($stmt->rowCount() > 0) {
 
         $releves_data = [
             'id' => $row['id'],
-            'id_sonde' => $row['id_sonde'],
             'temperature' => html_entity_decode($row['temperature']),
-            'created_at' => $row['created_at'],
-            'humidite' => $row['humidite']
+            'humidity' => $row['humidity']
 
         ];
         // PUSH POST DATA IN OUR $posts_array ARRAY

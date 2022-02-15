@@ -21,11 +21,10 @@ if (isset($data->id)) {
     $releve_id = $data->id;
 
     //GET POST BY ID FROM DATABASE
-    $get_releve = "SELECT * FROM `releves` WHERE id=:releve_id";
+    $get_releve = "SELECT * FROM `sensor_data` WHERE id=:sensor_data";
     $get_stmt = $conn->prepare($get_releve);
-    $get_stmt->bindValue(':releve_id', $releve_id, PDO::PARAM_INT);
+    $get_stmt->bindValue(':id', $releve_id, PDO::PARAM_INT);
     $get_stmt->execute();
-
 
     //CHECK WHETHER THERE IS ANY POST IN OUR DATABASE
     if ($get_stmt->rowCount() > 0) {
@@ -35,19 +34,17 @@ if (isset($data->id)) {
 
         // CHECK, IF NEW UPDATE REQUEST DATA IS AVAILABLE THEN SET IT OTHERWISE SET OLD DATA
         $releve_temperature = isset($data->temperature) ? $data->temperature : $row['temperature'];
-        $releve_humidite = isset($data->humidite) ? $data->humidite : $row['humidite'];
+        $releve_humidite = isset($data->humidite) ? $data->humidite : $row['humidity'];
 
-        $update_query = "UPDATE `releves` SET temperature = :temperature, humidite = :humidite, modified_at = :modified_at 
+        $update_query = "UPDATE `sensor_data` SET temperature = :temperature, humidity = :humidity
         WHERE id = :id";
 
         $update_stmt = $conn->prepare($update_query);
 
         // DATA BINDING AND REMOVE SPECIAL CHARS AND REMOVE TAGS
         $update_stmt->bindValue(':temperature', htmlspecialchars(strip_tags($releve_temperature)), PDO::PARAM_INT);
-        $update_stmt->bindValue(':humidite', htmlspecialchars(strip_tags($releve_humidite)), PDO::PARAM_INT);
-        $update_stmt->bindValue(':modified_at', date("d-m-Y H:i:s"));
+        $update_stmt->bindValue(':humidity', htmlspecialchars(strip_tags($releve_humidite)), PDO::PARAM_INT);
         $update_stmt->bindValue(':id', $releve_id, PDO::PARAM_INT);
-
 
         if ($update_stmt->execute()) {
             $msg['message'] = 'Data updated successfully';
