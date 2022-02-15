@@ -52,5 +52,5 @@ if ($stmt->rowCount() > 0) {
     echo json_encode($releves_array);
 } else {
     //IF THER IS NO POST IN OUR DATABASE
-    echo json_encode(['message' => 'No post found']);
+    echo json_encode(['message' => 'Aucune donnée disponible']);
 }
